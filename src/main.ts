@@ -1,25 +1,11 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
 
+import planetParams from "./planet-params";
+
+import type { CelestialBodyParams, CelestialBody, RingsParams } from "./types";
+
 import "./style.css";
-
-interface CelestialBodyParams {
-  target?: THREE.Object3D;
-  scale: number;
-  texture: string;
-  rotationSpeed: number;
-  orbitRadius: number;
-  orbitSpeed: number;
-  satellites?: CelestialBodyParams[];
-}
-
-interface CelestialBody {
-  celestialBody: THREE.Object3D;
-  orbit: THREE.Object3D;
-  rotationSpeed: number;
-  orbitSpeed: number;
-  children?: CelestialBody[];
-}
 
 const sizes = {
   width: window.innerWidth,
@@ -32,10 +18,10 @@ const scene = new THREE.Scene();
 scene.background = textureLoader.load("/textures/space.jpg");
 
 const sun = new THREE.Mesh(
-  new THREE.SphereGeometry(2),
+  new THREE.SphereGeometry(5),
   new THREE.MeshBasicMaterial({ map: textureLoader.load("/textures/sun.jpg") })
 );
-const sunRotationSpeed = 0.01;
+const sunRotationSpeed = 0.25;
 scene.add(sun);
 
 const light = new THREE.AmbientLight(0xffffff, 0.1);
@@ -66,15 +52,72 @@ const createOrbit = (radius: number, target: THREE.Object3D) => {
   return new THREE.Group();
 };
 
-const createCelestialBody = ({
-  target = scene,
-  scale,
-  texture,
-  rotationSpeed,
-  orbitRadius,
-  orbitSpeed,
-  satellites,
-}: CelestialBodyParams): CelestialBody => {
+const createRings = (
+  { scale, angle, rotationSpeed }: RingsParams,
+  target: THREE.Object3D
+) => {
+  const geometry = new THREE.RingGeometry(scale * 1.2, scale * 1.8);
+  geometry.rotateX(-Math.PI / 2);
+
+  const material = new THREE.MeshStandardMaterial({
+    color: "gray",
+    side: THREE.DoubleSide,
+  });
+
+  const rings = new THREE.Mesh(geometry, material);
+
+  const ringGroup = new THREE.Group();
+  ringGroup.add(rings);
+
+  ringGroup.rotation.x = THREE.MathUtils.degToRad(angle);
+
+  target.add(ringGroup);
+
+  return { rings: ringGroup, rotationSpeed };
+};
+
+const createLabel = (
+  text: string,
+  position: THREE.Vector3,
+  target: THREE.Object3D
+) => {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  if (!context) return;
+
+  const fontSize = 50;
+  canvas.width = 256;
+  canvas.height = 128;
+
+  context.font = `${fontSize}px Arial`;
+  context.fillStyle = "white";
+  context.textAlign = "center";
+  context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  const material = new THREE.SpriteMaterial({ map: texture });
+  const sprite = new THREE.Sprite(material);
+
+  sprite.scale.set(2, 1, 1);
+  sprite.position.copy(position);
+
+  target.add(sprite);
+};
+
+const createCelestialBody = (
+  {
+    name,
+    scale,
+    texture,
+    rotationSpeed,
+    position,
+    orbitRadius,
+    orbitSpeed,
+    rings,
+    satellites,
+  }: CelestialBodyParams,
+  target: THREE.Object3D = scene
+): CelestialBody => {
   const orbit = createOrbit(orbitRadius, target);
 
   const celestialBodyGroup = new THREE.Group();
@@ -82,11 +125,11 @@ const createCelestialBody = ({
   const celestialBody = new THREE.Mesh(
     new THREE.SphereGeometry(scale),
     new THREE.MeshStandardMaterial({
-      map: textureLoader.load(`/textures/${texture}.jpg`),
+      map: textureLoader.load(`/textures/${texture}`),
     })
   );
 
-  celestialBodyGroup.position.set(orbitRadius, 0, 0);
+  celestialBodyGroup.position.set(position.x, position.y, position.z);
 
   celestialBodyGroup.add(celestialBody);
 
@@ -94,77 +137,34 @@ const createCelestialBody = ({
 
   target.add(orbit);
 
-  const children = satellites?.map((satellite) =>
-    createCelestialBody({ ...satellite, target: celestialBodyGroup })
-  );
+  createLabel(name, new THREE.Vector3(0, scale + 0.5, 0), celestialBodyGroup);
+
+  const createdRings = rings
+    ? createRings(rings, celestialBodyGroup)
+    : undefined;
+
+  const createdSatellites = satellites
+    ? Object.values(satellites).map((satellite) =>
+        createCelestialBody(satellite, celestialBodyGroup)
+      )
+    : undefined;
 
   return {
     celestialBody,
     orbit,
     rotationSpeed,
     orbitSpeed,
-    children,
+    satellites: createdSatellites,
+    rings: createdRings,
   };
 };
 
-const planets = {
-  mercury: createCelestialBody({
-    scale: 0.3,
-    texture: "mercury",
-    rotationSpeed: 0.017,
-    orbitRadius: 4,
-    orbitSpeed: 0.24,
-  }),
-  venus: createCelestialBody({
-    scale: 0.7,
-    texture: "venus",
-    rotationSpeed: -0.004,
-    orbitRadius: 7,
-    orbitSpeed: 0.3,
-  }),
-  earth: createCelestialBody({
-    scale: 0.8,
-    texture: "earth",
-    rotationSpeed: 0.02,
-    orbitRadius: 10,
-    orbitSpeed: 0.15,
-    satellites: [
-      {
-        scale: 0.2,
-        texture: "moon",
-        rotationSpeed: 0.05,
-        orbitRadius: 1.5,
-        orbitSpeed: 0.4,
-      },
-    ],
-  }),
-  mars: createCelestialBody({
-    scale: 0.5,
-    texture: "mars",
-    rotationSpeed: 0.02,
-    orbitRadius: 15,
-    orbitSpeed: 0.2,
-    satellites: [
-      {
-        scale: 0.1,
-        texture: "phobos",
-        rotationSpeed: 0.02,
-        orbitRadius: 0.8,
-        orbitSpeed: 0.4,
-      },
-      {
-        scale: 0.05,
-        texture: "deimos",
-        rotationSpeed: 0.01,
-        orbitRadius: 1.2,
-        orbitSpeed: 0.5,
-      },
-    ],
-  }),
-};
+const planets = Object.values(planetParams).map((params) =>
+  createCelestialBody(params)
+);
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
-camera.position.set(16, 12, 16);
+camera.position.set(32, 24, 32);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 const canvas = renderer.domElement;
@@ -177,24 +177,40 @@ controls.enableDamping = true;
 
 const clock = new THREE.Clock();
 
+const speed = 0.5;
+
 const rotateCelestialBody = (
-  { celestialBody, orbit, rotationSpeed, orbitSpeed, children }: CelestialBody,
+  {
+    celestialBody,
+    orbit,
+    rotationSpeed,
+    orbitSpeed,
+    rings,
+    satellites,
+  }: CelestialBody,
   elapsedTime: number
 ) => {
-  orbit.rotation.y = elapsedTime * orbitSpeed;
-  celestialBody.rotation.y += rotationSpeed;
+  orbit.rotation.y = elapsedTime * orbitSpeed * speed;
+  celestialBody.rotation.y = elapsedTime * rotationSpeed * speed;
 
-  children?.forEach((child) => rotateCelestialBody(child, elapsedTime));
+  if (rings) {
+    rings.rings.rotation.y = elapsedTime * rings.rotationSpeed * speed;
+  }
+
+  if (satellites) {
+    satellites.forEach((satellite) =>
+      rotateCelestialBody(satellite, elapsedTime)
+    );
+  }
 };
 
 function animate() {
   const elapsedTime = clock.getElapsedTime();
 
-  Object.values(planets).forEach((planet) =>
-    rotateCelestialBody(planet, elapsedTime)
-  );
+  planets.forEach((planet) => rotateCelestialBody(planet, elapsedTime));
+  sun.rotation.y = elapsedTime * sunRotationSpeed * speed;
 
-  sun.rotation.y += sunRotationSpeed;
+  console.log(camera);
 
   controls.update();
   renderer.render(scene, camera);
