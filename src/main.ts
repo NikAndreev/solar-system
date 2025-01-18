@@ -210,8 +210,6 @@ function animate() {
   planets.forEach((planet) => rotateCelestialBody(planet, elapsedTime));
   sun.rotation.y = elapsedTime * sunRotationSpeed * speed;
 
-  console.log(camera);
-
   controls.update();
   renderer.render(scene, camera);
 
