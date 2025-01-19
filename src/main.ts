@@ -21,7 +21,7 @@ const sun = new THREE.Mesh(
   new THREE.SphereGeometry(5),
   new THREE.MeshBasicMaterial({ map: textureLoader.load("/textures/sun.jpg") })
 );
-const sunRotationSpeed = 0.25;
+const sunRotationSpeed = 0.04;
 scene.add(sun);
 
 const light = new THREE.AmbientLight(0xffffff, 0.1);
