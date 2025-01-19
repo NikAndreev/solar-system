@@ -21,7 +21,7 @@ const sun = new THREE.Mesh(
   new THREE.SphereGeometry(5),
   new THREE.MeshBasicMaterial({ map: textureLoader.load("/textures/sun.jpg") })
 );
-const sunRotationSpeed = 0.04;
+const sunRotationSpeed = 14.6;
 scene.add(sun);
 
 const light = new THREE.AmbientLight(0xffffff, 0.1);
@@ -177,7 +177,10 @@ controls.enableDamping = true;
 
 const clock = new THREE.Clock();
 
-const speed = 0.5;
+const SPEED_COEFFICIENT = 1;
+const ROTATION_SPEED_COEFFICIENT = 0.01;
+const ORBIT_SPEED_COEFFICIENT = 0.5;
+const SATELLITES_ORBIT_SPEED_COEFFICIENT = 0.01;
 
 const rotateCelestialBody = (
   {
@@ -188,18 +191,33 @@ const rotateCelestialBody = (
     rings,
     satellites,
   }: CelestialBody,
-  elapsedTime: number
+  elapsedTime: number,
+  isSatellite = false
 ) => {
-  orbit.rotation.y = elapsedTime * orbitSpeed * speed;
-  celestialBody.rotation.y = elapsedTime * rotationSpeed * speed;
+  orbit.rotation.y =
+    elapsedTime *
+    orbitSpeed *
+    SPEED_COEFFICIENT *
+    ORBIT_SPEED_COEFFICIENT *
+    (isSatellite ? SATELLITES_ORBIT_SPEED_COEFFICIENT : 1);
+
+  celestialBody.rotation.y =
+    elapsedTime *
+    rotationSpeed *
+    SPEED_COEFFICIENT *
+    ROTATION_SPEED_COEFFICIENT;
 
   if (rings) {
-    rings.rings.rotation.y = elapsedTime * rings.rotationSpeed * speed;
+    rings.rings.rotation.y =
+      elapsedTime *
+      rings.rotationSpeed *
+      SPEED_COEFFICIENT *
+      ROTATION_SPEED_COEFFICIENT;
   }
 
   if (satellites) {
     satellites.forEach((satellite) =>
-      rotateCelestialBody(satellite, elapsedTime)
+      rotateCelestialBody(satellite, elapsedTime, true)
     );
   }
 };
@@ -208,7 +226,11 @@ function animate() {
   const elapsedTime = clock.getElapsedTime();
 
   planets.forEach((planet) => rotateCelestialBody(planet, elapsedTime));
-  sun.rotation.y = elapsedTime * sunRotationSpeed * speed;
+  sun.rotation.y =
+    elapsedTime *
+    sunRotationSpeed *
+    SPEED_COEFFICIENT *
+    ROTATION_SPEED_COEFFICIENT;
 
   controls.update();
   renderer.render(scene, camera);
