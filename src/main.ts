@@ -1,11 +1,16 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
+// import Stats from "stats.js";
 
 import planetParams from "./planet-params";
 
 import type { CelestialBodyParams, CelestialBody, RingsParams } from "./types";
 
 import "./style.css";
+
+// const stats = new Stats();
+// stats.showPanel(0);
+// document.body.appendChild(stats.dom);
 
 const sizes = {
   width: window.innerWidth,
@@ -168,31 +173,41 @@ const createAsteroidBelt = (
   outerRadius: number,
   count: number
 ) => {
-  const asteroidGroup = new THREE.Group();
   const asteroidGeometry = new THREE.SphereGeometry(0.1);
   const asteroidMaterial = new THREE.MeshStandardMaterial({
     map: textureLoader.load("/textures/asteroid.jpg"),
   });
 
-  for (let i = 0; i < count; i++) {
-    const asteroid = new THREE.Mesh(asteroidGeometry, asteroidMaterial);
+  const asteroidGroup = new THREE.InstancedMesh(
+    asteroidGeometry,
+    asteroidMaterial,
+    count
+  );
 
+  for (let i = 0; i < count; i++) {
     const distance = innerRadius + Math.random() * (outerRadius - innerRadius);
     const angle = Math.random() * Math.PI * 2;
     const height = (Math.random() - 0.5) * 0.5;
 
-    asteroid.position.set(
+    const position = new THREE.Vector3(
       Math.cos(angle) * distance,
       height,
       Math.sin(angle) * distance
     );
-    asteroid.rotation.set(
+    const rotation = new THREE.Euler(
       Math.random() * Math.PI,
       Math.random() * Math.PI,
       Math.random() * Math.PI
     );
 
-    asteroidGroup.add(asteroid);
+    const matrix = new THREE.Matrix4();
+    matrix.compose(
+      position,
+      new THREE.Quaternion().setFromEuler(rotation),
+      new THREE.Vector3(1, 1, 1)
+    );
+
+    asteroidGroup.setMatrixAt(i, matrix);
   }
 
   scene.add(asteroidGroup);
@@ -263,6 +278,8 @@ const rotateCelestialBody = (
 };
 
 function animate() {
+  // stats.begin();
+
   const elapsedTime = clock.getElapsedTime();
 
   planets.forEach((planet) => rotateCelestialBody(planet, elapsedTime));
@@ -279,6 +296,8 @@ function animate() {
 
   controls.update();
   renderer.render(scene, camera);
+
+  // stats.end();
 
   window.requestAnimationFrame(animate);
 }
