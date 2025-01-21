@@ -163,6 +163,46 @@ const planets = Object.values(planetParams).map((params) =>
   createCelestialBody(params)
 );
 
+const createAsteroidBelt = (
+  innerRadius: number,
+  outerRadius: number,
+  count: number
+) => {
+  const asteroidGroup = new THREE.Group();
+  const asteroidGeometry = new THREE.SphereGeometry(0.1);
+  const asteroidMaterial = new THREE.MeshStandardMaterial({
+    map: textureLoader.load("/textures/asteroid.jpg"),
+  });
+
+  for (let i = 0; i < count; i++) {
+    const asteroid = new THREE.Mesh(asteroidGeometry, asteroidMaterial);
+
+    const distance = innerRadius + Math.random() * (outerRadius - innerRadius);
+    const angle = Math.random() * Math.PI * 2;
+    const height = (Math.random() - 0.5) * 0.5;
+
+    asteroid.position.set(
+      Math.cos(angle) * distance,
+      height,
+      Math.sin(angle) * distance
+    );
+    asteroid.rotation.set(
+      Math.random() * Math.PI,
+      Math.random() * Math.PI,
+      Math.random() * Math.PI
+    );
+
+    asteroidGroup.add(asteroid);
+  }
+
+  scene.add(asteroidGroup);
+
+  return asteroidGroup;
+};
+
+const asteroidBelt = createAsteroidBelt(22, 24, 1000);
+const asteroidBeltRotationSpeed = 0.2;
+
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
 camera.position.set(32, 24, 32);
 
@@ -229,6 +269,11 @@ function animate() {
   sun.rotation.y =
     elapsedTime *
     sunRotationSpeed *
+    SPEED_COEFFICIENT *
+    ROTATION_SPEED_COEFFICIENT;
+  asteroidBelt.rotation.y =
+    elapsedTime *
+    asteroidBeltRotationSpeed *
     SPEED_COEFFICIENT *
     ROTATION_SPEED_COEFFICIENT;
 
