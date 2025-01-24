@@ -61,24 +61,41 @@ const createRings = (
   { scale, angle, rotationSpeed }: RingsParams,
   target: THREE.Object3D
 ) => {
-  const geometry = new THREE.RingGeometry(scale * 1.2, scale * 1.8);
-  geometry.rotateX(-Math.PI / 2);
+  const innerRadius = scale * 1.2;
+  const outerRadius = scale * 1.8;
+  const particleCount = 10000;
+  const ringGeometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(particleCount * 3);
 
-  const material = new THREE.MeshStandardMaterial({
-    color: "gray",
-    side: THREE.DoubleSide,
+  for (let i = 0; i < particleCount; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = innerRadius + Math.random() * (outerRadius - innerRadius);
+    const height = (Math.random() - 0.5) * 0.2;
+
+    positions[i * 3] = Math.cos(angle) * radius;
+    positions[i * 3 + 1] = height;
+    positions[i * 3 + 2] = Math.sin(angle) * radius;
+  }
+
+  ringGeometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(positions, 3)
+  );
+
+  const ringMaterial = new THREE.PointsMaterial({
+    color: "#3a3a3a",
+    size: 0.05,
+    opacity: 0.6,
+    transparent: true,
+    sizeAttenuation: true,
   });
 
-  const rings = new THREE.Mesh(geometry, material);
+  const rings = new THREE.Points(ringGeometry, ringMaterial);
+  rings.rotation.x = THREE.MathUtils.degToRad(angle);
 
-  const ringGroup = new THREE.Group();
-  ringGroup.add(rings);
+  target.add(rings);
 
-  ringGroup.rotation.x = THREE.MathUtils.degToRad(angle);
-
-  target.add(ringGroup);
-
-  return { rings: ringGroup, rotationSpeed };
+  return { rings, rotationSpeed };
 };
 
 const createLabel = (

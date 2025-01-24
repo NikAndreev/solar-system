@@ -175,8 +175,8 @@ const planetParams = {
     orbitSpeed: 0.034,
     rings: {
       scale: 1.4,
-      angle: 30,
-      rotationSpeed: 1620,
+      angle: 26.7,
+      rotationSpeed: 200,
     },
     satellites: {
       enceladus: {
