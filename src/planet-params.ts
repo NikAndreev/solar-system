@@ -3,6 +3,7 @@ const planetParams = {
     name: "Меркурий",
     scale: 0.38,
     texture: "mercury.jpg",
+    axialTilt: 0.034,
     rotationSpeed: 6.2,
     position: {
       x: 8,
@@ -16,7 +17,8 @@ const planetParams = {
     name: "Венера",
     scale: 0.95,
     texture: "venus.jpg",
-    rotationSpeed: -1.46,
+    axialTilt: 177.4,
+    rotationSpeed: 1.46,
     position: {
       x: 0,
       y: 0,
@@ -29,6 +31,7 @@ const planetParams = {
     name: "Земля",
     scale: 1,
     texture: "earth.jpg",
+    axialTilt: 23.5,
     rotationSpeed: 365,
     position: {
       x: -16,
@@ -42,6 +45,7 @@ const planetParams = {
         name: "Луна",
         scale: 0.25,
         texture: "moon.jpg",
+        axialTilt: 6.7,
         rotationSpeed: 13.3,
         position: {
           x: 1.5,
@@ -57,6 +61,7 @@ const planetParams = {
     name: "Марс",
     scale: 0.53,
     texture: "mars.jpg",
+    axialTilt: 25.2,
     rotationSpeed: 354,
     position: {
       x: 0,
@@ -70,6 +75,7 @@ const planetParams = {
         name: "Фобос",
         scale: 0.1,
         texture: "satellite.jpg",
+        axialTilt: 0,
         rotationSpeed: 1216,
         position: {
           x: 0.8,
@@ -83,6 +89,7 @@ const planetParams = {
         name: "Деймос",
         scale: 0.1,
         texture: "satellite.jpg",
+        axialTilt: 0,
         rotationSpeed: 280,
         position: {
           x: -1.2,
@@ -98,6 +105,7 @@ const planetParams = {
     name: "Юпитер",
     scale: 1.5,
     texture: "jupiter.jpg",
+    axialTilt: 3.1,
     rotationSpeed: 890,
     position: {
       x: 26,
@@ -111,6 +119,7 @@ const planetParams = {
         name: "Ио",
         scale: 0.25,
         texture: "satellite.jpg",
+        axialTilt: 0,
         rotationSpeed: 206,
         position: {
           x: 2,
@@ -124,6 +133,7 @@ const planetParams = {
         name: "Европа",
         scale: 0.22,
         texture: "satellite.jpg",
+        axialTilt: 0.1,
         rotationSpeed: 102,
         position: {
           x: 0,
@@ -137,6 +147,7 @@ const planetParams = {
         name: "Ганимед",
         scale: 0.3,
         texture: "satellite.jpg",
+        axialTilt: 0.3,
         rotationSpeed: 51,
         position: {
           x: -3.2,
@@ -150,6 +161,7 @@ const planetParams = {
         name: "Каллисто",
         scale: 0.28,
         texture: "satellite.jpg",
+        axialTilt: 0.2,
         rotationSpeed: 21,
         position: {
           x: 0,
@@ -165,6 +177,7 @@ const planetParams = {
     name: "Сатурн",
     scale: 1.4,
     texture: "saturn.jpg",
+    axialTilt: 26.7,
     rotationSpeed: 810,
     position: {
       x: 0,
@@ -183,6 +196,7 @@ const planetParams = {
         name: "Энцелад",
         scale: 0.1,
         texture: "satellite.jpg",
+        axialTilt: 0,
         rotationSpeed: 266,
         position: {
           x: 1.8,
@@ -196,6 +210,7 @@ const planetParams = {
         name: "Рея",
         scale: 0.15,
         texture: "satellite.jpg",
+        axialTilt: 0.1,
         rotationSpeed: 81,
         position: {
           x: 0,
@@ -209,6 +224,7 @@ const planetParams = {
         name: "Титан",
         scale: 0.3,
         texture: "satellite.jpg",
+        axialTilt: 0.3,
         rotationSpeed: 22,
         position: {
           x: -3,
@@ -224,6 +240,7 @@ const planetParams = {
     name: "Уран",
     scale: 1.2,
     texture: "uranus.jpg",
+    axialTilt: 97.8,
     rotationSpeed: 507,
     position: {
       x: -40,
@@ -237,6 +254,7 @@ const planetParams = {
         name: "Титания",
         scale: 0.15,
         texture: "satellite.jpg",
+        axialTilt: 0,
         rotationSpeed: 42,
         position: {
           x: 1.6,
@@ -250,6 +268,7 @@ const planetParams = {
         name: "Оберон",
         scale: 0.15,
         texture: "satellite.jpg",
+        axialTilt: 0.1,
         rotationSpeed: 27,
         position: {
           x: -2.2,
@@ -265,6 +284,7 @@ const planetParams = {
     name: "Нептун",
     scale: 1.2,
     texture: "neptune.jpg",
+    axialTilt: 28.3,
     rotationSpeed: 544,
     position: {
       x: 0,
@@ -278,6 +298,7 @@ const planetParams = {
         name: "Тритон",
         scale: 0.2,
         texture: "satellite.jpg",
+        axialTilt: 0,
         rotationSpeed: 63,
         position: {
           x: 1.6,

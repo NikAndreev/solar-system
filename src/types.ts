@@ -4,6 +4,7 @@ export interface CelestialBodyParams {
   name: string;
   scale: number;
   texture: string;
+  axialTilt: number;
   rotationSpeed: number;
   position: {
     x: number;

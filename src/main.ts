@@ -131,6 +131,7 @@ const createCelestialBody = (
     name,
     scale,
     texture,
+    axialTilt,
     rotationSpeed,
     position,
     orbitRadius,
@@ -150,6 +151,8 @@ const createCelestialBody = (
       map: textureLoader.load(`/textures/${texture}`),
     })
   );
+
+  celestialBody.rotation.x = THREE.MathUtils.degToRad(axialTilt);
 
   celestialBodyGroup.position.set(position.x, position.y, position.z);
 
