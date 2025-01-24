@@ -74,7 +74,7 @@ const planetParams = {
       phobos: {
         name: "Фобос",
         scale: 0.1,
-        texture: "satellite.jpg",
+        texture: "phobos.webp",
         axialTilt: 0,
         rotationSpeed: 1216,
         position: {
@@ -88,7 +88,7 @@ const planetParams = {
       deimos: {
         name: "Деймос",
         scale: 0.1,
-        texture: "satellite.jpg",
+        texture: "deimos.webp",
         axialTilt: 0,
         rotationSpeed: 280,
         position: {
@@ -118,7 +118,7 @@ const planetParams = {
       io: {
         name: "Ио",
         scale: 0.25,
-        texture: "satellite.jpg",
+        texture: "io.webp",
         axialTilt: 0,
         rotationSpeed: 206,
         position: {
@@ -132,7 +132,7 @@ const planetParams = {
       europe: {
         name: "Европа",
         scale: 0.22,
-        texture: "satellite.jpg",
+        texture: "europe.webp",
         axialTilt: 0.1,
         rotationSpeed: 102,
         position: {
@@ -146,7 +146,7 @@ const planetParams = {
       ganymede: {
         name: "Ганимед",
         scale: 0.3,
-        texture: "satellite.jpg",
+        texture: "ganymede.webp",
         axialTilt: 0.3,
         rotationSpeed: 51,
         position: {
@@ -160,7 +160,7 @@ const planetParams = {
       callisto: {
         name: "Каллисто",
         scale: 0.28,
-        texture: "satellite.jpg",
+        texture: "callisto.webp",
         axialTilt: 0.2,
         rotationSpeed: 21,
         position: {
@@ -195,7 +195,7 @@ const planetParams = {
       enceladus: {
         name: "Энцелад",
         scale: 0.1,
-        texture: "satellite.jpg",
+        texture: "enceladus.webp",
         axialTilt: 0,
         rotationSpeed: 266,
         position: {
@@ -223,7 +223,7 @@ const planetParams = {
       titan: {
         name: "Титан",
         scale: 0.3,
-        texture: "satellite.jpg",
+        texture: "titan.webp",
         axialTilt: 0.3,
         rotationSpeed: 22,
         position: {
@@ -253,7 +253,7 @@ const planetParams = {
       titania: {
         name: "Титания",
         scale: 0.15,
-        texture: "satellite.jpg",
+        texture: "titania.webp",
         axialTilt: 0,
         rotationSpeed: 42,
         position: {
@@ -267,7 +267,7 @@ const planetParams = {
       oberon: {
         name: "Оберон",
         scale: 0.15,
-        texture: "satellite.jpg",
+        texture: "oberon.webp",
         axialTilt: 0.1,
         rotationSpeed: 27,
         position: {
