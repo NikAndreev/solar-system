@@ -245,10 +245,10 @@ controls.enableDamping = true;
 
 const clock = new THREE.Clock();
 
-const SPEED_COEFFICIENT = 1;
-const ROTATION_SPEED_COEFFICIENT = 0.01;
-const ORBIT_SPEED_COEFFICIENT = 0.5;
-const SATELLITES_ORBIT_SPEED_COEFFICIENT = 0.01;
+const SPEED = 0.5;
+const ROTATION_SPEED = 0.01;
+const PLANET_ORBIT_SPEED = 0.5;
+const SATELLITE_ORBIT_SPEED = 0.005;
 
 const rotateCelestialBody = (
   {
@@ -265,22 +265,15 @@ const rotateCelestialBody = (
   orbit.rotation.y =
     elapsedTime *
     orbitSpeed *
-    SPEED_COEFFICIENT *
-    ORBIT_SPEED_COEFFICIENT *
-    (isSatellite ? SATELLITES_ORBIT_SPEED_COEFFICIENT : 1);
+    SPEED *
+    (isSatellite ? SATELLITE_ORBIT_SPEED : PLANET_ORBIT_SPEED);
 
   celestialBody.rotation.y =
-    elapsedTime *
-    rotationSpeed *
-    SPEED_COEFFICIENT *
-    ROTATION_SPEED_COEFFICIENT;
+    elapsedTime * rotationSpeed * SPEED * ROTATION_SPEED;
 
   if (rings) {
     rings.rings.rotation.y =
-      elapsedTime *
-      rings.rotationSpeed *
-      SPEED_COEFFICIENT *
-      ROTATION_SPEED_COEFFICIENT;
+      elapsedTime * rings.rotationSpeed * SPEED * ROTATION_SPEED;
   }
 
   if (satellites) {
@@ -296,16 +289,9 @@ function animate() {
   const elapsedTime = clock.getElapsedTime();
 
   planets.forEach((planet) => rotateCelestialBody(planet, elapsedTime));
-  sun.rotation.y =
-    elapsedTime *
-    sunRotationSpeed *
-    SPEED_COEFFICIENT *
-    ROTATION_SPEED_COEFFICIENT;
+  sun.rotation.y = elapsedTime * sunRotationSpeed * SPEED * ROTATION_SPEED;
   asteroidBelt.rotation.y =
-    elapsedTime *
-    asteroidBeltRotationSpeed *
-    SPEED_COEFFICIENT *
-    ROTATION_SPEED_COEFFICIENT;
+    elapsedTime * asteroidBeltRotationSpeed * SPEED * ROTATION_SPEED;
 
   controls.update();
   renderer.render(scene, camera);
