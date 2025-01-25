@@ -62,35 +62,28 @@ const createRings = (
   target: THREE.Object3D
 ) => {
   const innerRadius = scale * 1.2;
-  const outerRadius = scale * 1.8;
-  const particleCount = 10000;
-  const ringGeometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(particleCount * 3);
+  const outerRadius = scale * 2.0;
+  const geometry = new THREE.RingGeometry(innerRadius, outerRadius);
+  geometry.rotateX(-Math.PI / 2);
 
-  for (let i = 0; i < particleCount; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    const radius = innerRadius + Math.random() * (outerRadius - innerRadius);
-    const height = (Math.random() - 0.5) * 0.2;
-
-    positions[i * 3] = Math.cos(angle) * radius;
-    positions[i * 3 + 1] = height;
-    positions[i * 3 + 2] = Math.sin(angle) * radius;
+  const pos = geometry.attributes.position;
+  const uv = geometry.attributes.uv;
+  const v3 = new THREE.Vector3();
+  for (let i = 0; i < pos.count; i++) {
+    v3.fromBufferAttribute(pos, i);
+    uv.setXY(i, v3.length() < (innerRadius + outerRadius) / 2 ? 0 : 1, 1);
   }
 
-  ringGeometry.setAttribute(
-    "position",
-    new THREE.BufferAttribute(positions, 3)
-  );
-
-  const ringMaterial = new THREE.PointsMaterial({
-    color: "#3a3a3a",
-    size: 0.05,
-    opacity: 0.6,
+  const material = new THREE.MeshBasicMaterial({
+    map: textureLoader.load("/textures/saturn_ring.png"),
+    color: "gray",
+    side: THREE.DoubleSide,
     transparent: true,
-    sizeAttenuation: true,
+    opacity: 0.8,
   });
 
-  const rings = new THREE.Points(ringGeometry, ringMaterial);
+  const rings = new THREE.Mesh(geometry, material);
+
   rings.rotation.x = THREE.MathUtils.degToRad(angle);
 
   target.add(rings);
