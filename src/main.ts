@@ -23,7 +23,7 @@ const scene = new THREE.Scene();
 scene.background = textureLoader.load("/textures/space.jpg");
 
 const sun = new THREE.Mesh(
-  new THREE.SphereGeometry(5),
+  new THREE.SphereGeometry(5, 64, 32),
   new THREE.MeshBasicMaterial({ map: textureLoader.load("/textures/sun.jpg") })
 );
 const sunRotationSpeed = 14.6;
