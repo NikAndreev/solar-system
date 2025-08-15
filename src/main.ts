@@ -233,7 +233,7 @@ const createAsteroidBelt = (
   return asteroidGroup;
 };
 
-const asteroidBelt = createAsteroidBelt(22, 24, 1000);
+const asteroidBelt = createAsteroidBelt(23, 25, 1000);
 const asteroidBeltRotationSpeed = 0.2;
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
