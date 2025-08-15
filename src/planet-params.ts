@@ -108,11 +108,11 @@ const planetParams = {
     axialTilt: 3.1,
     rotationSpeed: 890,
     position: {
-      x: 30,
+      x: 26,
       y: 0,
       z: 0,
     },
-    orbitRadius: 30,
+    orbitRadius: 26,
     orbitSpeed: 0.084,
     satellites: {
       io: {
@@ -182,9 +182,9 @@ const planetParams = {
     position: {
       x: 0,
       y: 0,
-      z: 36,
+      z: 32,
     },
-    orbitRadius: 36,
+    orbitRadius: 32,
     orbitSpeed: 0.034,
     rings: {
       scale: 1.4,
@@ -243,11 +243,11 @@ const planetParams = {
     axialTilt: 97.8,
     rotationSpeed: 507,
     position: {
-      x: -42,
+      x: -40,
       y: 0,
       z: 0,
     },
-    orbitRadius: 42,
+    orbitRadius: 40,
     orbitSpeed: 0.012,
     satellites: {
       titania: {
