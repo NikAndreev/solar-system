@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/Addons.js";
+import { GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
 // import Stats from "stats.js";
 
 import planetParams from "./planet-params";
@@ -17,17 +17,22 @@ const sizes = {
   height: window.innerHeight,
 };
 
+const modelLoader = new GLTFLoader();
 const textureLoader = new THREE.TextureLoader();
 
 const scene = new THREE.Scene();
 scene.background = textureLoader.load("/textures/space.jpg");
 
-const sun = new THREE.Mesh(
-  new THREE.SphereGeometry(5, 64, 32),
-  new THREE.MeshBasicMaterial({ map: textureLoader.load("/textures/sun.jpg") })
-);
-const sunRotationSpeed = 14.6;
-scene.add(sun);
+// const sun = new THREE.Mesh(
+//   new THREE.SphereGeometry(5, 64, 32),
+//   new THREE.MeshBasicMaterial({ map: textureLoader.load("/textures/sun.jpg") })
+// );
+// const sunRotationSpeed = 14.6;
+// scene.add(sun);
+modelLoader.load("/models/Sun/scene.gltf", (gltf) => {
+  gltf.scene.scale.set(0.5, 0.5, 0.5);
+  scene.add(gltf.scene);
+});
 
 const light = new THREE.AmbientLight(0xffffff, 0.1);
 scene.add(light);
@@ -289,7 +294,7 @@ function animate() {
   const elapsedTime = clock.getElapsedTime();
 
   planets.forEach((planet) => rotateCelestialBody(planet, elapsedTime));
-  sun.rotation.y = elapsedTime * sunRotationSpeed * SPEED * ROTATION_SPEED;
+  // sun.rotation.y = elapsedTime * sunRotationSpeed * SPEED * ROTATION_SPEED;
   asteroidBelt.rotation.y =
     elapsedTime * asteroidBeltRotationSpeed * SPEED * ROTATION_SPEED;
 
