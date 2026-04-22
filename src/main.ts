@@ -25,7 +25,7 @@ scene.background = textureLoader.load("/textures/space.jpg");
 
 const sun = new THREE.Mesh(
   new THREE.SphereGeometry(5, 64, 32),
-  new THREE.MeshBasicMaterial({ map: textureLoader.load("/textures/sun.jpg") })
+  new THREE.MeshBasicMaterial({ map: textureLoader.load("/textures/sun.jpg") }),
 );
 const sunRotationSpeed = 14.6;
 scene.add(sun);
@@ -48,13 +48,13 @@ const createOrbit = (radius: number, target: THREE.Object3D) => {
     const angle = (i / segments) * Math.PI * 2;
 
     points.push(
-      new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius)
+      new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius),
     );
   }
 
   const line = new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(points),
-    new THREE.LineBasicMaterial({ color: "gray" })
+    new THREE.LineBasicMaterial({ color: "gray" }),
   );
 
   target.add(line);
@@ -64,7 +64,7 @@ const createOrbit = (radius: number, target: THREE.Object3D) => {
 
 const createRings = (
   { scale, angle, rotationSpeed }: RingsParams,
-  target: THREE.Object3D
+  target: THREE.Object3D,
 ) => {
   const innerRadius = scale * 1.2;
   const outerRadius = scale * 2.0;
@@ -99,7 +99,7 @@ const createRings = (
 const createLabel = (
   text: string,
   position: THREE.Vector3,
-  target: THREE.Object3D
+  target: THREE.Object3D,
 ) => {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
@@ -137,7 +137,7 @@ const createCelestialBody = (
     rings,
     satellites,
   }: CelestialBodyParams,
-  target: THREE.Object3D = scene
+  target: THREE.Object3D = scene,
 ): CelestialBody => {
   const orbit = createOrbit(orbitRadius, target);
 
@@ -147,7 +147,7 @@ const createCelestialBody = (
     new THREE.SphereGeometry(scale),
     new THREE.MeshStandardMaterial({
       map: textureLoader.load(`/textures/${texture}`),
-    })
+    }),
   );
 
   celestialBody.rotation.x = THREE.MathUtils.degToRad(axialTilt);
@@ -168,7 +168,7 @@ const createCelestialBody = (
 
   const createdSatellites = satellites
     ? Object.values(satellites).map((satellite) =>
-        createCelestialBody(satellite, celestialBodyGroup)
+        createCelestialBody(satellite, celestialBodyGroup),
       )
     : undefined;
 
@@ -183,13 +183,13 @@ const createCelestialBody = (
 };
 
 const planets = Object.values(planetParams).map((params) =>
-  createCelestialBody(params)
+  createCelestialBody(params),
 );
 
 const createAsteroidBelt = (
   innerRadius: number,
   outerRadius: number,
-  count: number
+  count: number,
 ) => {
   const asteroidGeometry = new THREE.SphereGeometry(0.1);
   const asteroidMaterial = new THREE.MeshStandardMaterial({
@@ -199,7 +199,7 @@ const createAsteroidBelt = (
   const asteroidGroup = new THREE.InstancedMesh(
     asteroidGeometry,
     asteroidMaterial,
-    count
+    count,
   );
 
   for (let i = 0; i < count; i++) {
@@ -210,19 +210,19 @@ const createAsteroidBelt = (
     const position = new THREE.Vector3(
       Math.cos(angle) * distance,
       height,
-      Math.sin(angle) * distance
+      Math.sin(angle) * distance,
     );
     const rotation = new THREE.Euler(
       Math.random() * Math.PI,
       Math.random() * Math.PI,
-      Math.random() * Math.PI
+      Math.random() * Math.PI,
     );
 
     const matrix = new THREE.Matrix4();
     matrix.compose(
       position,
       new THREE.Quaternion().setFromEuler(rotation),
-      new THREE.Vector3(1, 1, 1)
+      new THREE.Vector3(1, 1, 1),
     );
 
     asteroidGroup.setMatrixAt(i, matrix);
@@ -250,10 +250,9 @@ controls.enableDamping = true;
 
 const clock = new THREE.Clock();
 
-const SPEED = 0.5;
+const SPEED = 0.25;
 const ROTATION_SPEED = 0.01;
-const PLANET_ORBIT_SPEED = 0.5;
-const SATELLITE_ORBIT_SPEED = 0.005;
+const ORBIT_SPEED = 1;
 
 const rotateCelestialBody = (
   {
@@ -265,13 +264,9 @@ const rotateCelestialBody = (
     satellites,
   }: CelestialBody,
   elapsedTime: number,
-  isSatellite = false
 ) => {
   orbit.rotation.y =
-    elapsedTime *
-    orbitSpeed *
-    SPEED *
-    (isSatellite ? SATELLITE_ORBIT_SPEED : PLANET_ORBIT_SPEED);
+    elapsedTime * Math.log(1 + orbitSpeed) * SPEED * ORBIT_SPEED;
 
   celestialBody.rotation.y =
     elapsedTime * rotationSpeed * SPEED * ROTATION_SPEED;
@@ -283,7 +278,7 @@ const rotateCelestialBody = (
 
   if (satellites) {
     satellites.forEach((satellite) =>
-      rotateCelestialBody(satellite, elapsedTime, true)
+      rotateCelestialBody(satellite, elapsedTime),
     );
   }
 };
