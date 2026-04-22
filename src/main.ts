@@ -24,7 +24,7 @@ const scene = new THREE.Scene();
 scene.background = textureLoader.load("/textures/space.jpg");
 
 const sun = new THREE.Mesh(
-  new THREE.SphereGeometry(5, 64, 32),
+  new THREE.SphereGeometry(4, 64, 32),
   new THREE.MeshBasicMaterial({ map: textureLoader.load("/textures/sun.jpg") }),
 );
 const sunRotationSpeed = 14.6;
@@ -186,58 +186,8 @@ const planets = Object.values(planetParams).map((params) =>
   createCelestialBody(params),
 );
 
-const createAsteroidBelt = (
-  innerRadius: number,
-  outerRadius: number,
-  count: number,
-) => {
-  const asteroidGeometry = new THREE.SphereGeometry(0.1);
-  const asteroidMaterial = new THREE.MeshStandardMaterial({
-    map: textureLoader.load("/textures/asteroid.jpg"),
-  });
-
-  const asteroidGroup = new THREE.InstancedMesh(
-    asteroidGeometry,
-    asteroidMaterial,
-    count,
-  );
-
-  for (let i = 0; i < count; i++) {
-    const distance = innerRadius + Math.random() * (outerRadius - innerRadius);
-    const angle = Math.random() * Math.PI * 2;
-    const height = (Math.random() - 0.5) * 0.5;
-
-    const position = new THREE.Vector3(
-      Math.cos(angle) * distance,
-      height,
-      Math.sin(angle) * distance,
-    );
-    const rotation = new THREE.Euler(
-      Math.random() * Math.PI,
-      Math.random() * Math.PI,
-      Math.random() * Math.PI,
-    );
-
-    const matrix = new THREE.Matrix4();
-    matrix.compose(
-      position,
-      new THREE.Quaternion().setFromEuler(rotation),
-      new THREE.Vector3(1, 1, 1),
-    );
-
-    asteroidGroup.setMatrixAt(i, matrix);
-  }
-
-  scene.add(asteroidGroup);
-
-  return asteroidGroup;
-};
-
-const asteroidBelt = createAsteroidBelt(22, 24, 1000);
-const asteroidBeltRotationSpeed = 0.2;
-
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
-camera.position.set(32, 24, 32);
+camera.position.set(28, 28, 28);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 const canvas = renderer.domElement;
@@ -290,8 +240,6 @@ function animate() {
 
   planets.forEach((planet) => rotateCelestialBody(planet, elapsedTime));
   sun.rotation.y = elapsedTime * sunRotationSpeed * SPEED * ROTATION_SPEED;
-  asteroidBelt.rotation.y =
-    elapsedTime * asteroidBeltRotationSpeed * SPEED * ROTATION_SPEED;
 
   controls.update();
   renderer.render(scene, camera);

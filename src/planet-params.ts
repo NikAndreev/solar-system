@@ -243,11 +243,11 @@ const planetParams = {
     axialTilt: 97.8,
     rotationSpeed: 507,
     position: {
-      x: -40,
+      x: -38,
       y: 0,
       z: 0,
     },
-    orbitRadius: 40,
+    orbitRadius: 38,
     orbitSpeed: 0.012,
     satellites: {
       titania: {
@@ -289,9 +289,9 @@ const planetParams = {
     position: {
       x: 0,
       y: 0,
-      z: -48,
+      z: -44,
     },
-    orbitRadius: 48,
+    orbitRadius: 44,
     orbitSpeed: 0.0061,
     satellites: {
       triton: {
