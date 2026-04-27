@@ -21,10 +21,18 @@ const sizes = {
 const textureLoader = new THREE.TextureLoader();
 
 const scene = new THREE.Scene();
-scene.background = textureLoader.load("/textures/space.jpg");
+
+const skybox = new THREE.Mesh(
+  new THREE.SphereGeometry(200, 64, 64),
+  new THREE.MeshBasicMaterial({
+    map: textureLoader.load("/textures/8k_stars.jpg"),
+    side: THREE.BackSide,
+  }),
+);
+scene.add(skybox);
 
 const sun = new THREE.Mesh(
-  new THREE.SphereGeometry(4, 64, 32),
+  new THREE.SphereGeometry(4, 64, 64),
   new THREE.MeshBasicMaterial({ map: textureLoader.load("/textures/sun.jpg") }),
 );
 const sunRotationSpeed = 14.6;
