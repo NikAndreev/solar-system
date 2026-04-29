@@ -1,8 +1,8 @@
 import * as THREE from "three";
 
-export interface CelestialBodyParams {
+export interface CelestialBodyConfig {
   name: string;
-  scale: number;
+  size: number;
   texture: string;
   axialTilt: number;
   rotationSpeed: number;
@@ -12,28 +12,24 @@ export interface CelestialBodyParams {
     z: number;
   };
   orbitSpeed: number;
-  rings?: RingsParams;
+  rings?: {
+    size: number;
+    angle: number;
+    rotationSpeed: number;
+  };
   satellites?: {
-    [key: string]: CelestialBodyParams;
+    [key: string]: CelestialBodyConfig;
   };
 }
 
 export interface CelestialBody {
-  celestialBody: THREE.Object3D;
+  object: THREE.Object3D;
   orbit: THREE.Object3D;
   rotationSpeed: number;
   orbitSpeed: number;
-  rings?: Rings;
+  rings?: {
+    object: THREE.Object3D;
+    rotationSpeed: number;
+  };
   satellites?: CelestialBody[];
-}
-
-export interface RingsParams {
-  scale: number;
-  angle: number;
-  rotationSpeed: number;
-}
-
-interface Rings {
-  rings: THREE.Object3D;
-  rotationSpeed: number;
 }

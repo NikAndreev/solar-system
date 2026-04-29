@@ -1,15 +1,15 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
 
-import planetParams from "./planet-params";
+import planetConfig from "./planet-config";
 
-import type { CelestialBodyParams, CelestialBody, RingsParams } from "./types";
+import type { CelestialBodyConfig, CelestialBody } from "./types";
 
 const preloader = document.getElementById("preloader");
 let loadedTextures = 0;
 const totalTextures = 24;
 
-const checkAllTexturesLoaded = () => {
+const checkAllTexturesLoaded = (): void => {
   loadedTextures++;
 
   if (loadedTextures === totalTextures && preloader) {
@@ -50,10 +50,10 @@ scene.add(light);
 const sunLight = new THREE.PointLight(0xffffff, 250, 250);
 scene.add(sunLight);
 
-const createOrbit = (
-  position: CelestialBodyParams["position"],
+const drawOrbit = (
+  position: CelestialBodyConfig["position"],
   target: THREE.Object3D,
-) => {
+): void => {
   const radius = Math.max(...Object.values(position).map((el) => Math.abs(el)));
 
   const points = [];
@@ -73,16 +73,14 @@ const createOrbit = (
   );
 
   target.add(line);
-
-  return new THREE.Group();
 };
 
 const createRings = (
-  { scale, angle, rotationSpeed }: RingsParams,
+  { size, angle, rotationSpeed }: NonNullable<CelestialBodyConfig["rings"]>,
   target: THREE.Object3D,
-) => {
-  const innerRadius = scale * 1.2;
-  const outerRadius = scale * 2.0;
+): CelestialBody["rings"] => {
+  const innerRadius = size * 1.2;
+  const outerRadius = size * 2.0;
   const geometry = new THREE.RingGeometry(innerRadius, outerRadius);
   geometry.rotateX(-Math.PI / 2);
 
@@ -105,20 +103,20 @@ const createRings = (
     opacity: 0.8,
   });
 
-  const rings = new THREE.Mesh(geometry, material);
+  const object = new THREE.Mesh(geometry, material);
 
-  rings.rotation.x = THREE.MathUtils.degToRad(angle);
+  object.rotation.x = THREE.MathUtils.degToRad(angle);
 
-  target.add(rings);
+  target.add(object);
 
-  return { rings, rotationSpeed };
+  return { object, rotationSpeed };
 };
 
-const createLabel = (
+const drawLabel = (
   text: string,
   position: THREE.Vector3,
   target: THREE.Object3D,
-) => {
+): void => {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   if (!context) return;
@@ -143,63 +141,66 @@ const createLabel = (
 };
 
 const createCelestialBody = (
-  {
-    name,
-    scale,
-    texture,
-    axialTilt,
-    rotationSpeed,
-    position,
-    orbitSpeed,
-    rings,
-    satellites,
-  }: CelestialBodyParams,
+  config: CelestialBodyConfig,
   target: THREE.Object3D = scene,
 ): CelestialBody => {
-  const orbit = createOrbit(position, target);
+  const orbit = new THREE.Group();
 
-  const celestialBodyGroup = new THREE.Group();
+  drawOrbit(config.position, target);
 
-  const celestialBody = new THREE.Mesh(
-    new THREE.SphereGeometry(scale),
+  const objectGroup = new THREE.Group();
+
+  const object = new THREE.Mesh(
+    new THREE.SphereGeometry(config.size),
     new THREE.MeshStandardMaterial({
-      map: textureLoader.load(`/textures/${texture}`, checkAllTexturesLoaded),
+      map: textureLoader.load(
+        `/textures/${config.texture}`,
+        checkAllTexturesLoaded,
+      ),
     }),
   );
 
-  celestialBody.rotation.x = THREE.MathUtils.degToRad(axialTilt);
+  object.rotation.x = THREE.MathUtils.degToRad(config.axialTilt);
 
-  celestialBodyGroup.position.set(position.x, position.y, position.z);
+  objectGroup.position.set(
+    config.position.x,
+    config.position.y,
+    config.position.z,
+  );
 
-  celestialBodyGroup.add(celestialBody);
+  objectGroup.add(object);
 
-  orbit.add(celestialBodyGroup);
+  orbit.add(objectGroup);
 
   target.add(orbit);
 
-  createLabel(name, new THREE.Vector3(0, scale + 0.5, 0), celestialBodyGroup);
+  drawLabel(
+    config.name,
+    new THREE.Vector3(0, config.size + 0.5, 0),
+    objectGroup,
+  );
 
-  const createdRings = rings
-    ? createRings(rings, celestialBodyGroup)
+  const rings = config.rings
+    ? createRings(config.rings, objectGroup)
     : undefined;
 
-  const createdSatellites = satellites
-    ? Object.values(satellites).map((satellite) =>
-        createCelestialBody(satellite, celestialBodyGroup),
+  const satellites = config.satellites
+    ? Object.values(config.satellites).map((satellite) =>
+        createCelestialBody(satellite, objectGroup),
       )
     : undefined;
 
   return {
-    celestialBody,
+    object,
     orbit,
-    rotationSpeed,
-    orbitSpeed,
-    satellites: createdSatellites,
-    rings: createdRings,
+    rotationSpeed: config.rotationSpeed,
+    orbitSpeed: config.orbitSpeed,
+    satellites,
+    rings,
   };
 };
 
-const planets = Object.values(planetParams).map((params) =>
+const planets = Object.values(planetConfig).map((params) =>
   createCelestialBody(params),
 );
 
@@ -218,13 +219,13 @@ controls.enableDamping = true;
 
 const clock = new THREE.Clock();
 
-const SPEED = 0.25;
+const SPEED = 0.2;
 const ROTATION_SPEED = 0.01;
 const ORBIT_SPEED = 1;
 
 const rotateCelestialBody = (
   {
-    celestialBody,
+    object,
     orbit,
     rotationSpeed,
     orbitSpeed,
@@ -232,15 +233,14 @@ const rotateCelestialBody = (
     satellites,
   }: CelestialBody,
   elapsedTime: number,
-) => {
+): void => {
   orbit.rotation.y =
     elapsedTime * Math.log(1 + orbitSpeed) * SPEED * ORBIT_SPEED;
 
-  celestialBody.rotation.y =
-    elapsedTime * rotationSpeed * SPEED * ROTATION_SPEED;
+  object.rotation.y = elapsedTime * rotationSpeed * SPEED * ROTATION_SPEED;
 
   if (rings) {
-    rings.rings.rotation.y =
+    rings.object.rotation.y =
       elapsedTime * rings.rotationSpeed * SPEED * ROTATION_SPEED;
   }
 

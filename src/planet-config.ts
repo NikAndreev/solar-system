@@ -1,7 +1,7 @@
-const planetParams = {
+const planetConfig = {
   mercury: {
     name: "Меркурий",
-    scale: 0.38,
+    size: 0.38,
     texture: "mercury.jpg",
     axialTilt: 0.034,
     rotationSpeed: 6.2,
@@ -14,7 +14,7 @@ const planetParams = {
   },
   venus: {
     name: "Венера",
-    scale: 0.95,
+    size: 0.95,
     texture: "venus.jpg",
     axialTilt: 177.4,
     rotationSpeed: 1.46,
@@ -27,7 +27,7 @@ const planetParams = {
   },
   earth: {
     name: "Земля",
-    scale: 1,
+    size: 1,
     texture: "earth.jpg",
     axialTilt: 23.5,
     rotationSpeed: 365,
@@ -40,7 +40,7 @@ const planetParams = {
     satellites: {
       moon: {
         name: "Луна",
-        scale: 0.25,
+        size: 0.25,
         texture: "moon.jpg",
         axialTilt: 6.7,
         rotationSpeed: 13.3,
@@ -55,7 +55,7 @@ const planetParams = {
   },
   mars: {
     name: "Марс",
-    scale: 0.53,
+    size: 0.53,
     texture: "mars.jpg",
     axialTilt: 25.2,
     rotationSpeed: 354,
@@ -68,7 +68,7 @@ const planetParams = {
     satellites: {
       phobos: {
         name: "Фобос",
-        scale: 0.1,
+        size: 0.1,
         texture: "phobos.webp",
         axialTilt: 0,
         rotationSpeed: 1216,
@@ -81,7 +81,7 @@ const planetParams = {
       },
       deimos: {
         name: "Деймос",
-        scale: 0.1,
+        size: 0.1,
         texture: "deimos.webp",
         axialTilt: 0,
         rotationSpeed: 280,
@@ -96,7 +96,7 @@ const planetParams = {
   },
   jupiter: {
     name: "Юпитер",
-    scale: 1.5,
+    size: 1.5,
     texture: "jupiter.jpg",
     axialTilt: 3.1,
     rotationSpeed: 890,
@@ -109,7 +109,7 @@ const planetParams = {
     satellites: {
       io: {
         name: "Ио",
-        scale: 0.25,
+        size: 0.25,
         texture: "io.webp",
         axialTilt: 0,
         rotationSpeed: 206,
@@ -122,7 +122,7 @@ const planetParams = {
       },
       europe: {
         name: "Европа",
-        scale: 0.22,
+        size: 0.22,
         texture: "europe.webp",
         axialTilt: 0.1,
         rotationSpeed: 102,
@@ -135,7 +135,7 @@ const planetParams = {
       },
       ganymede: {
         name: "Ганимед",
-        scale: 0.3,
+        size: 0.3,
         texture: "ganymede.webp",
         axialTilt: 0.3,
         rotationSpeed: 51,
@@ -148,7 +148,7 @@ const planetParams = {
       },
       callisto: {
         name: "Каллисто",
-        scale: 0.28,
+        size: 0.28,
         texture: "callisto.webp",
         axialTilt: 0.2,
         rotationSpeed: 21,
@@ -163,7 +163,7 @@ const planetParams = {
   },
   saturn: {
     name: "Сатурн",
-    scale: 1.4,
+    size: 1.4,
     texture: "saturn.jpg",
     axialTilt: 26.7,
     rotationSpeed: 810,
@@ -174,14 +174,14 @@ const planetParams = {
     },
     orbitSpeed: 0.034,
     rings: {
-      scale: 1.4,
+      size: 1.4,
       angle: 26.7,
       rotationSpeed: 810,
     },
     satellites: {
       enceladus: {
         name: "Энцелад",
-        scale: 0.1,
+        size: 0.1,
         texture: "enceladus.webp",
         axialTilt: 0,
         rotationSpeed: 266,
@@ -194,7 +194,7 @@ const planetParams = {
       },
       rhea: {
         name: "Рея",
-        scale: 0.15,
+        size: 0.15,
         texture: "satellite.jpg",
         axialTilt: 0.1,
         rotationSpeed: 81,
@@ -207,7 +207,7 @@ const planetParams = {
       },
       titan: {
         name: "Титан",
-        scale: 0.3,
+        size: 0.3,
         texture: "titan.webp",
         axialTilt: 0.3,
         rotationSpeed: 22,
@@ -222,7 +222,7 @@ const planetParams = {
   },
   uranus: {
     name: "Уран",
-    scale: 1.2,
+    size: 1.2,
     texture: "uranus.jpg",
     axialTilt: 97.8,
     rotationSpeed: 507,
@@ -235,7 +235,7 @@ const planetParams = {
     satellites: {
       titania: {
         name: "Титания",
-        scale: 0.15,
+        size: 0.15,
         texture: "titania.webp",
         axialTilt: 0,
         rotationSpeed: 42,
@@ -248,7 +248,7 @@ const planetParams = {
       },
       oberon: {
         name: "Оберон",
-        scale: 0.15,
+        size: 0.15,
         texture: "oberon.webp",
         axialTilt: 0.1,
         rotationSpeed: 27,
@@ -263,7 +263,7 @@ const planetParams = {
   },
   neptune: {
     name: "Нептун",
-    scale: 1.2,
+    size: 1.2,
     texture: "neptune.jpg",
     axialTilt: 28.3,
     rotationSpeed: 544,
@@ -276,7 +276,7 @@ const planetParams = {
     satellites: {
       triton: {
         name: "Тритон",
-        scale: 0.2,
+        size: 0.2,
         texture: "satellite.jpg",
         axialTilt: 0,
         rotationSpeed: 63,
@@ -291,4 +291,4 @@ const planetParams = {
   },
 };
 
-export default planetParams;
+export default planetConfig;
