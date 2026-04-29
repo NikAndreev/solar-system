@@ -27,7 +27,7 @@ const textureLoader = new THREE.TextureLoader();
 const scene = new THREE.Scene();
 
 const skybox = new THREE.Mesh(
-  new THREE.SphereGeometry(200, 64, 64),
+  new THREE.SphereGeometry(400, 64, 64),
   new THREE.MeshBasicMaterial({
     map: textureLoader.load("/textures/8k_stars.jpg", checkAllTexturesLoaded),
     side: THREE.BackSide,
@@ -209,6 +209,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 document.body.appendChild(canvas);
 
 const controls = new OrbitControls(camera, canvas);
+controls.maxDistance = 150;
 controls.enableDamping = true;
 
 const clock = new THREE.Clock();
