@@ -219,7 +219,7 @@ controls.enableDamping = true;
 
 const clock = new THREE.Clock();
 
-const SPEED = 0.2;
+const SPEED = 0.25;
 const ROTATION_SPEED = 0.01;
 const ORBIT_SPEED = 1;
 
