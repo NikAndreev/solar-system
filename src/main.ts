@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
-// import Stats from "stats.js";
 
 import planetParams from "./planet-params";
 
@@ -18,16 +17,11 @@ const checkAllTexturesLoaded = () => {
   }
 };
 
-// const stats = new Stats();
-// stats.showPanel(0);
-// document.body.appendChild(stats.dom);
-
 const sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
 
-// const modelLoader = new GLTFLoader();
 const textureLoader = new THREE.TextureLoader();
 
 const scene = new THREE.Scene();
@@ -49,10 +43,6 @@ const sun = new THREE.Mesh(
 );
 const sunRotationSpeed = 14.6;
 scene.add(sun);
-// modelLoader.load("/models/Sun/scene.gltf", (gltf) => {
-//   gltf.scene.scale.set(0.5, 0.5, 0.5);
-//   scene.add(gltf.scene);
-// });
 
 const light = new THREE.AmbientLight(0xffffff, 0.1);
 scene.add(light);
@@ -257,8 +247,6 @@ const rotateCelestialBody = (
 };
 
 function animate() {
-  // stats.begin();
-
   const elapsedTime = clock.getElapsedTime();
 
   planets.forEach((planet) => rotateCelestialBody(planet, elapsedTime));
@@ -266,8 +254,6 @@ function animate() {
 
   controls.update();
   renderer.render(scene, camera);
-
-  // stats.end();
 
   window.requestAnimationFrame(animate);
 }
