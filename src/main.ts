@@ -6,7 +6,17 @@ import planetParams from "./planet-params";
 
 import type { CelestialBodyParams, CelestialBody, RingsParams } from "./types";
 
-import "./style.css";
+const preloader = document.getElementById("preloader");
+let loadedTextures = 0;
+const totalTextures = 24;
+
+const checkAllTexturesLoaded = () => {
+  loadedTextures++;
+
+  if (loadedTextures === totalTextures && preloader) {
+    preloader.remove();
+  }
+};
 
 // const stats = new Stats();
 // stats.showPanel(0);
@@ -25,7 +35,7 @@ const scene = new THREE.Scene();
 const skybox = new THREE.Mesh(
   new THREE.SphereGeometry(200, 64, 64),
   new THREE.MeshBasicMaterial({
-    map: textureLoader.load("/textures/8k_stars.jpg"),
+    map: textureLoader.load("/textures/8k_stars.jpg", checkAllTexturesLoaded),
     side: THREE.BackSide,
   }),
 );
@@ -33,7 +43,9 @@ scene.add(skybox);
 
 const sun = new THREE.Mesh(
   new THREE.SphereGeometry(4, 64, 64),
-  new THREE.MeshBasicMaterial({ map: textureLoader.load("/textures/sun.jpg") }),
+  new THREE.MeshBasicMaterial({
+    map: textureLoader.load("/textures/sun.jpg", checkAllTexturesLoaded),
+  }),
 );
 const sunRotationSpeed = 14.6;
 scene.add(sun);
@@ -88,7 +100,10 @@ const createRings = (
   }
 
   const material = new THREE.MeshBasicMaterial({
-    map: textureLoader.load("/textures/saturn_ring.png"),
+    map: textureLoader.load(
+      "/textures/saturn_ring.png",
+      checkAllTexturesLoaded,
+    ),
     color: "gray",
     side: THREE.DoubleSide,
     transparent: true,
@@ -154,7 +169,7 @@ const createCelestialBody = (
   const celestialBody = new THREE.Mesh(
     new THREE.SphereGeometry(scale),
     new THREE.MeshStandardMaterial({
-      map: textureLoader.load(`/textures/${texture}`),
+      map: textureLoader.load(`/textures/${texture}`, checkAllTexturesLoaded),
     }),
   );
 
