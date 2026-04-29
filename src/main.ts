@@ -50,7 +50,12 @@ scene.add(light);
 const sunLight = new THREE.PointLight(0xffffff, 250, 250);
 scene.add(sunLight);
 
-const createOrbit = (radius: number, target: THREE.Object3D) => {
+const createOrbit = (
+  position: CelestialBodyParams["position"],
+  target: THREE.Object3D,
+) => {
+  const radius = Math.max(...Object.values(position).map((el) => Math.abs(el)));
+
   const points = [];
   const segments = 100;
 
@@ -145,14 +150,13 @@ const createCelestialBody = (
     axialTilt,
     rotationSpeed,
     position,
-    orbitRadius,
     orbitSpeed,
     rings,
     satellites,
   }: CelestialBodyParams,
   target: THREE.Object3D = scene,
 ): CelestialBody => {
-  const orbit = createOrbit(orbitRadius, target);
+  const orbit = createOrbit(position, target);
 
   const celestialBodyGroup = new THREE.Group();
 

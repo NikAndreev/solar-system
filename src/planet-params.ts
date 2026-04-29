@@ -10,7 +10,6 @@ const planetParams = {
       y: 0,
       z: 0,
     },
-    orbitRadius: 8,
     orbitSpeed: 4.17,
   },
   venus: {
@@ -24,7 +23,6 @@ const planetParams = {
       y: 0,
       z: 12,
     },
-    orbitRadius: 12,
     orbitSpeed: 1.61,
   },
   earth: {
@@ -38,7 +36,6 @@ const planetParams = {
       y: 0,
       z: 0,
     },
-    orbitRadius: 16,
     orbitSpeed: 1,
     satellites: {
       moon: {
@@ -52,7 +49,6 @@ const planetParams = {
           y: 0,
           z: 0,
         },
-        orbitRadius: 1.5,
         orbitSpeed: 13.3,
       },
     },
@@ -68,7 +64,6 @@ const planetParams = {
       y: 0,
       z: -20,
     },
-    orbitRadius: 20,
     orbitSpeed: 0.53,
     satellites: {
       phobos: {
@@ -82,7 +77,6 @@ const planetParams = {
           y: 0,
           z: 0,
         },
-        orbitRadius: 0.8,
         orbitSpeed: 1216,
       },
       deimos: {
@@ -96,7 +90,6 @@ const planetParams = {
           y: 0,
           z: 0,
         },
-        orbitRadius: 1.2,
         orbitSpeed: 280,
       },
     },
@@ -112,7 +105,6 @@ const planetParams = {
       y: 0,
       z: 0,
     },
-    orbitRadius: 26,
     orbitSpeed: 0.084,
     satellites: {
       io: {
@@ -126,7 +118,6 @@ const planetParams = {
           y: 0,
           z: 0,
         },
-        orbitRadius: 2,
         orbitSpeed: 206,
       },
       europe: {
@@ -140,7 +131,6 @@ const planetParams = {
           y: 0,
           z: 2.6,
         },
-        orbitRadius: 2.6,
         orbitSpeed: 102,
       },
       ganymede: {
@@ -154,7 +144,6 @@ const planetParams = {
           y: 0,
           z: 0,
         },
-        orbitRadius: 3.2,
         orbitSpeed: 51,
       },
       callisto: {
@@ -168,7 +157,6 @@ const planetParams = {
           y: 0,
           z: -3.8,
         },
-        orbitRadius: 3.8,
         orbitSpeed: 21,
       },
     },
@@ -184,7 +172,6 @@ const planetParams = {
       y: 0,
       z: 32,
     },
-    orbitRadius: 32,
     orbitSpeed: 0.034,
     rings: {
       scale: 1.4,
@@ -203,7 +190,6 @@ const planetParams = {
           y: 0,
           z: 0,
         },
-        orbitRadius: 1.8,
         orbitSpeed: 266,
       },
       rhea: {
@@ -217,7 +203,6 @@ const planetParams = {
           y: 0,
           z: 2.4,
         },
-        orbitRadius: 2.4,
         orbitSpeed: 81,
       },
       titan: {
@@ -231,7 +216,6 @@ const planetParams = {
           y: 0,
           z: 0,
         },
-        orbitRadius: 3,
         orbitSpeed: 22,
       },
     },
@@ -247,7 +231,6 @@ const planetParams = {
       y: 0,
       z: 0,
     },
-    orbitRadius: 38,
     orbitSpeed: 0.012,
     satellites: {
       titania: {
@@ -261,7 +244,6 @@ const planetParams = {
           y: 0,
           z: 0,
         },
-        orbitRadius: 1.6,
         orbitSpeed: 42,
       },
       oberon: {
@@ -275,7 +257,6 @@ const planetParams = {
           y: 0,
           z: 0,
         },
-        orbitRadius: 2.2,
         orbitSpeed: 27,
       },
     },
@@ -291,7 +272,6 @@ const planetParams = {
       y: 0,
       z: -44,
     },
-    orbitRadius: 44,
     orbitSpeed: 0.0061,
     satellites: {
       triton: {
@@ -305,7 +285,6 @@ const planetParams = {
           y: 0,
           z: 0,
         },
-        orbitRadius: 1.6,
         orbitSpeed: 63,
       },
     },

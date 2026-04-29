@@ -11,7 +11,6 @@ export interface CelestialBodyParams {
     y: number;
     z: number;
   };
-  orbitRadius: number;
   orbitSpeed: number;
   rings?: RingsParams;
   satellites?: {
